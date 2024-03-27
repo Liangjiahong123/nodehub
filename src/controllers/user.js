@@ -1,8 +1,9 @@
 const userService = require('../services/user');
 
 class UserControl {
-  create(ctx, next) {
-    userService.create(ctx.request.body);
+  async create(ctx, next) {
+    const result = await userService.create(ctx.request.body);
+    ctx.body = result;
   }
 }
 
