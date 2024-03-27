@@ -1,0 +1,30 @@
+{
+  "name": "nodehub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Liangjiahong123/nodehub.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Liangjiahong123/nodehub/issues"
+  },
+  "homepage": "https://github.com/Liangjiahong123/nodehub#readme",
+  "dependencies": {
+    "@koa/router": "^12.0.1",
+    "dotenv": "^16.4.5",
+    "koa": "^2.15.2",
+    "koa-bodyparser": "^4.4.1",
+    "log4js": "^6.9.1",
+    "mysql2": "^3.9.3",
+    "sequelize": "^6.37.1"
+  }
+}
