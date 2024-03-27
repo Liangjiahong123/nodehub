@@ -1,7 +1,8 @@
 const userService = require('../services/user');
 const { NAME_IS_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED } = require('../config/errType');
+const md5Crypt = require('../utils/crypt');
 
-const userVerify = async function (ctx, next) {
+async function userVerify(ctx, next) {
   const { name, password } = ctx.request.body;
 
   if (!name || !password) {
@@ -17,6 +18,13 @@ const userVerify = async function (ctx, next) {
   }
 
   await next();
-};
+}
 
-module.exports = { userVerify };
+async function userPwdCrypt(ctx, next) {
+  let { password } = ctx.request.body;
+  password = md5Crypt(password);
+  ctx.request.body.password = password;
+  await next();
+}
+
+module.exports = { userVerify, userPwdCrypt };
