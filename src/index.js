@@ -1,3 +1,4 @@
+require('./utils/errHandler');
 const app = require('./app');
 const { SERVER_PORT } = require('./config/server');
 

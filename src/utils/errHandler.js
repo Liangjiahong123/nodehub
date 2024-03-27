@@ -1,0 +1,21 @@
+const app = require('../app');
+const { resError } = require('../utils/resFormat');
+const { NAME_IS_EXISTS, NAME_OR_PASSWORD_IS_REQUIRED } = require('../config/errType');
+
+app.on('error', (err, ctx) => {
+  let message = 'server internal error ',
+    errCode = 500;
+
+  switch (err) {
+    case NAME_OR_PASSWORD_IS_REQUIRED:
+      message = '用户名或密码不能为空~';
+      errCode = -1001;
+      break;
+    case NAME_IS_EXISTS:
+      message = '当前用户名已存在~';
+      errCode = -1002;
+      break;
+  }
+
+  ctx.body = resError(message, errCode);
+});
