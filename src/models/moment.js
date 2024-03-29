@@ -17,7 +17,11 @@ Moment.init(
       }
     }
   },
-  { paranoid: true, modelName: 'Moment', sequelize }
+  {
+    paranoid: true,
+    modelName: 'Moment',
+    sequelize
+  }
 );
 
 module.exports = Moment;
