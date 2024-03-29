@@ -1,11 +1,12 @@
 const app = require('../app');
 const { resError } = require('../utils/resFormat');
 const {
+  SERVER_ERROR,
   NAME_IS_EXISTS,
   NAME_OR_PASSWORD_IS_REQUIRED,
   NAME_IS_NOT_EXISTS,
   PASSWORD_IS_WRONG,
-  SERVER_ERROR
+  NOT_AUTHORIZATION
 } = require('../config/errType');
 
 app.on('error', (err, ctx) => {
@@ -13,6 +14,10 @@ app.on('error', (err, ctx) => {
     errCode = 500;
 
   switch (err) {
+    case SERVER_ERROR:
+      message = '服务器错误~';
+      errCode = -500;
+      break;
     case NAME_OR_PASSWORD_IS_REQUIRED:
       message = '用户名或密码不能为空~';
       errCode = -1001;
@@ -29,9 +34,10 @@ app.on('error', (err, ctx) => {
       message = '密码错误~';
       errCode = -1004;
       break;
-    case SERVER_ERROR:
-      message = '服务器错误~';
-      errCode = -500;
+    case NOT_AUTHORIZATION:
+      message = '登录已过期~';
+      errCode = -1005;
+      break;
   }
 
   ctx.body = resError(message, errCode);
