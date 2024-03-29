@@ -10,9 +10,8 @@ async function userVerify(ctx, next) {
     return;
   }
 
-  const result = await userService.findByName(name);
-
-  if (result) {
+  const user = await userService.findByName(name);
+  if (user) {
     ctx.app.emit('error', NAME_IS_EXISTS, ctx);
     return;
   }

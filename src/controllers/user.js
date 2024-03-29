@@ -1,8 +1,10 @@
 const userService = require('../services/user');
+const { omit } = require('../utils/property');
 
 class UserControl {
   async create(ctx, next) {
-    const result = await userService.create(ctx.request.body);
+    let result = await userService.create(ctx.request.body);
+    result = omit(result, ['passowrd']);
     ctx.body = result;
   }
 }
