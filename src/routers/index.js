@@ -4,7 +4,7 @@ function setupRouters(app) {
   const files = fs.readdirSync(__dirname);
 
   for (const file of files) {
-    if (file.startsWith('index')) continue;
+    if (!file.endsWith('router.js')) continue;
     const router = require(`./${file}`);
     app.use(router.routes());
     app.use(router.allowedMethods());
