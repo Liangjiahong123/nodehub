@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { pick } = require('../utils/property');
 const { resSuccess } = require('../utils/resFormat');
-const { PRIVATE_KEY } = require('../config/screct');
+const { PRIVATE_KEY, PUBLIC_KEY } = require('../config/screct');
 const { SERVER_ERROR } = require('../config/errType');
 
 class LoginController {

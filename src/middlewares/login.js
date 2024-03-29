@@ -1,11 +1,15 @@
+const jwt = require('jsonwebtoken');
 const {
   NAME_OR_PASSWORD_IS_REQUIRED,
   NAME_IS_NOT_EXISTS,
-  PASSWORD_IS_WRONG
+  PASSWORD_IS_WRONG,
+  NOT_AUTHORIZATION
 } = require('../config/errType');
 const userService = require('../services/user');
 const md5Crypt = require('../utils/crypt');
-const { isEmpty, isNull } = require('../utils/valid');
+
+const { isEmpty, isNull, isUndefined } = require('../utils/valid');
+const { PUBLIC_KEY } = require('../config/screct');
 
 async function loginVerify(ctx, next) {
   const { name, password } = ctx.request.body;
@@ -29,6 +33,26 @@ async function loginVerify(ctx, next) {
   await next();
 }
 
+async function authVerify(ctx, next) {
+  const authorization = ctx.headers.authorization;
+  const token = authorization?.replace('Bearer ', '') || '';
+  if (isUndefined(token)) {
+    ctx.app.emit('error', NOT_AUTHORIZATION, ctx);
+    return;
+  }
+
+  try {
+    jwt.verify(token, PUBLIC_KEY, {
+      algorithms: ['RS256']
+    });
+    await next();
+  } catch (error) {
+    console.error(error);
+    ctx.app.emit('error', NOT_AUTHORIZATION, ctx);
+  }
+}
+
 module.exports = {
-  loginVerify
+  loginVerify,
+  authVerify
 };
