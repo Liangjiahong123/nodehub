@@ -42,9 +42,10 @@ async function authVerify(ctx, next) {
   }
 
   try {
-    jwt.verify(token, PUBLIC_KEY, {
+    const result = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ['RS256']
     });
+    ctx.user = result;
     await next();
   } catch (error) {
     console.error(error);
