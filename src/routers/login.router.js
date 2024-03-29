@@ -1,8 +1,9 @@
 const KoaRouter = require('@koa/router');
 const loginController = require('../controllers/login');
 const { loginVerify } = require('../middlewares/login');
-const loginRouter = new KoaRouter({ prefix: '/api/login' });
+const { errCatch } = require('../utils/resFormat');
 
-loginRouter.post('/', loginVerify, loginController.sign);
+const loginRouter = new KoaRouter({ prefix: '/api/login' });
+loginRouter.post('/', loginVerify, errCatch(loginController.sign));
 
 module.exports = loginRouter;
