@@ -19,6 +19,25 @@ class MomentService {
     });
     return { total: count, list: JSON.parse(JSON.stringify(rows)) };
   }
+
+  async findById(id) {
+    const [result] = await Moment.findAll({
+      attributes: { exclude: ['userId'] },
+      where: { id },
+      include: {
+        model: User,
+        attributes: { exclude: ['password'] }
+      }
+    });
+    return result.toJSON();
+  }
+
+  async update(id, content) {
+    await Moment.update(content, {
+      where: { id }
+    });
+    return null;
+  }
 }
 
 module.exports = new MomentService();

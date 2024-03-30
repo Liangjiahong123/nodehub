@@ -6,7 +6,8 @@ const {
   NAME_OR_PASSWORD_IS_REQUIRED,
   NAME_IS_NOT_EXISTS,
   PASSWORD_IS_WRONG,
-  NOT_AUTHORIZATION
+  NOT_AUTHORIZATION,
+  NOT_PERMISSION
 } = require('../config/errType');
 
 app.on('error', (err, ctx) => {
@@ -37,6 +38,10 @@ app.on('error', (err, ctx) => {
     case NOT_AUTHORIZATION:
       message = '登录已过期~';
       errCode = -1005;
+      break;
+    case NOT_PERMISSION:
+      message = '无权限~';
+      errCode = -1006;
       break;
   }
 
