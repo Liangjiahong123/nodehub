@@ -4,5 +4,6 @@ module.exports = {
   NAME_IS_EXISTS: 'name_is_exists',
   NAME_IS_NOT_EXISTS: 'name_is_not_exists',
   PASSWORD_IS_WRONG: 'password_is_wrong',
-  NOT_AUTHORIZATION: 'not_authorization'
+  NOT_AUTHORIZATION: 'not_authorization',
+  NOT_PERMISSION: 'not_permission'
 };

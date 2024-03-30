@@ -19,7 +19,7 @@ Moment.init(
   },
   {
     paranoid: true,
-    modelName: 'Moment',
+    modelName: 'moment',
     sequelize
   }
 );

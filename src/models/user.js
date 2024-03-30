@@ -14,7 +14,7 @@ User.init(
       allowNull: false
     }
   },
-  { paranoid: true, modelName: 'User', sequelize }
+  { paranoid: true, modelName: 'user', sequelize }
 );
 
 module.exports = User;
