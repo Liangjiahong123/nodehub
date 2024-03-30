@@ -38,6 +38,13 @@ class MomentService {
     });
     return null;
   }
+
+  async remove(id) {
+    await Moment.destroy({
+      where: { id }
+    });
+    return null;
+  }
 }
 
 module.exports = new MomentService();

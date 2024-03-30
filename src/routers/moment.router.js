@@ -14,6 +14,11 @@ momentRouter.put(
   verifyMomentPermission,
   errCatch(momentController.update)
 );
-momentRouter.delete('/:momentId');
+momentRouter.delete(
+  '/:momentId',
+  authVerify,
+  verifyMomentPermission,
+  errCatch(momentController.remove)
+);
 
 module.exports = momentRouter;

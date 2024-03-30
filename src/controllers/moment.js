@@ -28,6 +28,12 @@ class MomentController {
     await momentService.update(momentId, newContent);
     ctx.body = resSuccess(null);
   }
+
+  async remove(ctx, next) {
+    const { momentId } = ctx.params;
+    await momentService.remove(momentId);
+    ctx.body = resSuccess(null);
+  }
 }
 
 module.exports = new MomentController();
