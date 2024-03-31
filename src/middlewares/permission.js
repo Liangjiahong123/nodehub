@@ -15,4 +15,17 @@ async function verifyMomentPermission(ctx, next) {
   await next();
 }
 
-module.exports = { verifyMomentPermission };
+async function verifyCommentPermission(ctx, next) {
+  const { commentId } = ctx.params;
+  const { id: userId } = ctx.user;
+
+  const result = await permissionService.checkComment(commentId, userId);
+  if (isNull(result)) {
+    ctx.app.emit('error', NOT_PERMISSION, ctx);
+    return;
+  }
+
+  await next();
+}
+
+module.exports = { verifyMomentPermission, verifyCommentPermission };

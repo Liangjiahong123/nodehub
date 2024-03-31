@@ -8,6 +8,12 @@ class CommentController {
     const result = await commentService.create({ content, userId, momentId, commentId });
     ctx.body = resSuccess(result);
   }
+
+  async remove(ctx, next) {
+    const { commentId } = ctx.params;
+    await commentService.remove(commentId);
+    ctx.body = resSuccess(null);
+  }
 }
 
 module.exports = new CommentController();
