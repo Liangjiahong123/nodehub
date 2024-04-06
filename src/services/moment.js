@@ -1,5 +1,6 @@
 const { literal } = require('sequelize');
 const { Moment, User, Comment, LabelMoment } = require('../models');
+const { mapRows } = require('../utils/property');
 
 class MomentService {
   async create(userId, content) {
@@ -14,6 +15,9 @@ class MomentService {
         include: [
           literal(
             '(SELECT COUNT(*) FROM comments WHERE comments.momentId = moment.id) AS commentCount'
+          ),
+          literal(
+            '(SELECT COUNT(*) FROM labelMoments WHERE labelMoments.momentId = moment.id) AS labelCount'
           )
         ]
       },
@@ -27,18 +31,18 @@ class MomentService {
       limit: +limit,
       raw: true
     });
-    rows = rows.map((row) => ({
-      id: row.id,
-      content: row.content,
-      createdAt: row.createdAt,
-      updatedAt: row.updatedAt,
-      deletedAt: row.deletedAt,
-      commentCount: row.commentCount,
-      user: {
-        id: row['user.id'],
-        name: row['user.name']
-      }
-    }));
+    rows = mapRows(rows, [
+      'id',
+      'content',
+      'createdAt',
+      'updatedAt',
+      'deletedAt',
+      'commentCount',
+      'labelCount',
+      'user.id',
+      'user.name'
+    ]);
+
     return { momentCount: count, list: JSON.parse(JSON.stringify(rows)) };
   }
 

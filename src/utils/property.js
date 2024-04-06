@@ -1,13 +1,7 @@
-function isObj(obj) {
-  if (!obj || typeof obj !== 'object') {
-    return false;
-  }
-
-  return true;
-}
+const { isObject } = require('./valid');
 
 function pick(obj, props) {
-  if (!isObj(obj)) return obj;
+  if (!isObject(obj)) return obj;
 
   const newObj = {};
   for (const key in obj) {
@@ -20,7 +14,7 @@ function pick(obj, props) {
 }
 
 function omit(obj, props) {
-  if (!isObj(obj)) return obj;
+  if (!isObject(obj)) return obj;
 
   const newObj = {};
   for (const key in obj) {
@@ -31,4 +25,26 @@ function omit(obj, props) {
   return newObj;
 }
 
-module.exports = { pick, omit, isObj };
+function mapRows(rows = [], props = []) {
+  if (!rows.length || !props.length) return rows;
+
+  return rows.map((row) => {
+    const newRows = {};
+
+    for (const prop of props) {
+      if (prop.includes('.')) {
+        const [outerKey, innerKey] = prop.split('.');
+        if (!newRows[outerKey]) {
+          newRows[outerKey] = {};
+        }
+        newRows[outerKey][innerKey] = row[prop];
+      } else {
+        newRows[prop] = row[prop];
+      }
+    }
+
+    return newRows;
+  });
+}
+
+module.exports = { pick, omit, mapRows };
