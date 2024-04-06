@@ -53,7 +53,13 @@ class MomentService {
         },
         {
           model: Comment,
-          attributes: { exclude: ['updatedAt', 'deletedAt'] }
+          attributes: { exclude: ['updatedAt', 'deletedAt', 'userId', 'momentId'] },
+          include: [
+            {
+              model: User,
+              attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt'] }
+            }
+          ]
         }
       ]
     });
