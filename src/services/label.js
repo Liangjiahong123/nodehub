@@ -6,6 +6,12 @@ class LabelService {
     return ins.toJSON();
   }
 
+  async findAll(id) {
+    const [result] = await Label.findAll();
+    if (!result) return null;
+    return result.toJSON();
+  }
+
   async findByName(name) {
     const [result] = await Label.findAll({
       where: { name }

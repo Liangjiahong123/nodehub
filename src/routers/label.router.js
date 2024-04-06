@@ -6,5 +6,6 @@ const { labelVerify } = require('../middlewares/label');
 
 const labelRouter = new KoaRouter({ prefix: '/api/label' });
 labelRouter.post('/', authVerify, labelVerify, errCatch(labelController.create));
+labelRouter.get('/', errCatch(labelController.findAll));
 
 module.exports = labelRouter;

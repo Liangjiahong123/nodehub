@@ -7,6 +7,11 @@ class LabelController {
     const result = await labelService.create(name);
     ctx.body = resSuccess(result);
   }
+
+  async findAll(ctx, next) {
+    const result = await labelService.findAll();
+    ctx.body = resSuccess(result);
+  }
 }
 
 module.exports = new LabelController();
