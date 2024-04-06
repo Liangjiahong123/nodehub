@@ -34,6 +34,20 @@ class MomentController {
     await momentService.remove(momentId);
     ctx.body = resSuccess(null);
   }
+
+  async addLabel(ctx, next) {
+    const { momentId } = ctx.params;
+    const labels = ctx.labels;
+
+    // 将momentId和labelId添加到labelMoment关系表
+    for (const label of labels) {
+      const existsFlag = await momentService.hasLabel(momentId, label.id);
+      if (existsFlag) continue;
+      await momentService.addLabel(momentId, label.id);
+    }
+
+    ctx.body = resSuccess(null);
+  }
 }
 
 module.exports = new MomentController();
