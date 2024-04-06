@@ -1,31 +1,17 @@
 const permissionService = require('../services/permission');
-const { isNull } = require('../utils/valid');
-const { NOT_PERMISSION } = require('../config/errType');
+const { isObject } = require('../utils/valid');
+const { NOT_PERMISSION, NOT_FOUND } = require('../config/errType');
 
-async function verifyMomentPermission(ctx, next) {
-  const { momentId } = ctx.params;
-  const { id: userId } = ctx.user;
-
-  const result = await permissionService.checkMoment(momentId, userId);
-  if (isNull(result)) {
-    ctx.app.emit('error', NOT_PERMISSION, ctx);
-    return;
+async function verifyResourcePermission(ctx, next) {
+  const resourceKey = Object.keys(ctx.params)[0];
+  const resourceId = ctx.params[resourceKey];
+  const result = await permissionService.checkResource(resourceKey, resourceId, ctx.user.id);
+  if (isObject(result)) {
+    await next();
+  } else {
+    const errType = result === 404 ? NOT_FOUND : NOT_PERMISSION;
+    ctx.app.emit('error', errType, ctx);
   }
-
-  await next();
 }
 
-async function verifyCommentPermission(ctx, next) {
-  const { commentId } = ctx.params;
-  const { id: userId } = ctx.user;
-
-  const result = await permissionService.checkComment(commentId, userId);
-  if (isNull(result)) {
-    ctx.app.emit('error', NOT_PERMISSION, ctx);
-    return;
-  }
-
-  await next();
-}
-
-module.exports = { verifyMomentPermission, verifyCommentPermission };
+module.exports = { verifyResourcePermission };

@@ -1,20 +1,20 @@
 const { Moment, Comment } = require('../models');
 
-class PermissionService {
-  async checkMoment(momentId, userId) {
-    const [result] = await Moment.findAll({
-      where: { userId, id: momentId }
-    });
-    if (result) return result.toJSON();
-    return null;
-  }
+const resourceModelMap = {
+  momentId: Moment,
+  commentId: Comment
+};
 
-  async checkComment(commentId, userId) {
-    const [result] = await Comment.findAll({
-      where: { userId, id: commentId }
+class PermissionService {
+  async checkResource(key, id, userId) {
+    const resourceModel = resourceModelMap[key];
+    const [result] = await resourceModel.findAll({
+      where: { id }
     });
-    if (result) return result.toJSON();
-    return null;
+
+    if (!result) return 404;
+    if (result.userId !== userId) return 401;
+    return result.toJSON();
   }
 }
 

@@ -1,6 +1,7 @@
 const User = require('./user');
 const Moment = require('./moment');
 const Comment = require('./comment');
+const Label = require('./label');
 const sequelize = require('../app/database');
 
 User.hasMany(Moment);
@@ -14,4 +15,4 @@ Comment.belongsTo(Comment, { foreignKey: 'commentId' });
 
 sequelize.sync();
 
-module.exports = { User, Moment, Comment };
+module.exports = { User, Moment, Comment, Label };
