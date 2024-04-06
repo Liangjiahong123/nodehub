@@ -7,7 +7,10 @@ const {
   NAME_IS_NOT_EXISTS,
   PASSWORD_IS_WRONG,
   NOT_AUTHORIZATION,
-  NOT_PERMISSION
+  NOT_PERMISSION,
+  NOT_FOUND,
+  LABEL_NAME_IS_REQUIRED,
+  LABEL_NAME_IS_EXISTS
 } = require('../config/errType');
 
 app.on('error', (err, ctx) => {
@@ -15,6 +18,10 @@ app.on('error', (err, ctx) => {
     errCode = 500;
 
   switch (err) {
+    case NOT_FOUND:
+      message = '资源不存在~';
+      errCode = -404;
+      break;
     case SERVER_ERROR:
       message = '服务器错误~';
       errCode = -500;
@@ -42,6 +49,13 @@ app.on('error', (err, ctx) => {
     case NOT_PERMISSION:
       message = '无权限~';
       errCode = -1006;
+      break;
+    case LABEL_NAME_IS_REQUIRED:
+      message = '标签名不能为空~';
+      errCode = -1007;
+    case LABEL_NAME_IS_EXISTS:
+      message = '标签名已存在~';
+      errCode = -1008;
       break;
   }
 

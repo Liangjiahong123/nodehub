@@ -35,12 +35,12 @@ async function loginVerify(ctx, next) {
 
 async function authVerify(ctx, next) {
   const authorization = ctx.headers.authorization;
-  const token = authorization?.replace('Bearer ', '') || '';
-  if (isUndefined(token)) {
+  if (isUndefined(authorization)) {
     ctx.app.emit('error', NOT_AUTHORIZATION, ctx);
     return;
   }
 
+  const token = authorization.replace('Bearer ', '') || '';
   try {
     const result = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ['RS256']
