@@ -6,7 +6,7 @@ class LabelService {
     return ins.toJSON();
   }
 
-  async findAll(id) {
+  async findAll() {
     const [result] = await Label.findAll();
     if (!result) return null;
     return result.toJSON();

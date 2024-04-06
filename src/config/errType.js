@@ -7,6 +7,5 @@ module.exports = {
   NOT_AUTHORIZATION: 'not_authorization',
   NOT_PERMISSION: 'not_permission',
   NOT_FOUND: 'not_found',
-  LABEL_NAME_IS_REQUIRED: 'label_name_is_required',
-  LABEL_NAME_IS_EXISTS: 'label_name_is_exists'
+  LABELS_IS_REQUIRED: 'labels_is_required'
 };

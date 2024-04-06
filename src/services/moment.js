@@ -1,5 +1,5 @@
 const { literal } = require('sequelize');
-const { Moment, User, Comment } = require('../models');
+const { Moment, User, Comment, LabelMoment } = require('../models');
 
 class MomentService {
   async create(userId, content) {
@@ -79,6 +79,21 @@ class MomentService {
       where: { id }
     });
     return null;
+  }
+
+  async hasLabel(momentId, labelId) {
+    const result = await LabelMoment.findAll({
+      where: {
+        momentId,
+        labelId
+      }
+    });
+    return !!result.length;
+  }
+
+  async addLabel(momentId, labelId) {
+    const ins = await LabelMoment.create({ momentId, labelId });
+    return ins.toJSON();
   }
 }
 

@@ -9,8 +9,7 @@ const {
   NOT_AUTHORIZATION,
   NOT_PERMISSION,
   NOT_FOUND,
-  LABEL_NAME_IS_REQUIRED,
-  LABEL_NAME_IS_EXISTS
+  LABELS_IS_REQUIRED
 } = require('../config/errType');
 
 app.on('error', (err, ctx) => {
@@ -50,12 +49,9 @@ app.on('error', (err, ctx) => {
       message = '无权限~';
       errCode = -1006;
       break;
-    case LABEL_NAME_IS_REQUIRED:
-      message = '标签名不能为空~';
+    case LABELS_IS_REQUIRED:
+      message = '标签不能为空~';
       errCode = -1007;
-    case LABEL_NAME_IS_EXISTS:
-      message = '标签名已存在~';
-      errCode = -1008;
       break;
   }
 
