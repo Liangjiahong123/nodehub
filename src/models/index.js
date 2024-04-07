@@ -3,6 +3,7 @@ const Moment = require('./moment');
 const Comment = require('./comment');
 const Label = require('./label');
 const LabelMoment = require('./labelMoment');
+const Avatar = require('./avatar');
 const sequelize = require('../app/database');
 
 User.hasMany(Moment);
@@ -18,4 +19,4 @@ Label.belongsToMany(Moment, { through: LabelMoment });
 
 sequelize.sync();
 
-module.exports = { User, Moment, Comment, Label, LabelMoment };
+module.exports = { User, Moment, Comment, Label, LabelMoment, Avatar };

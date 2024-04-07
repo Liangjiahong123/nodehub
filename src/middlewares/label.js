@@ -1,4 +1,4 @@
-const { LABELS_IS_REQUIRED } = require('../config/errType');
+const { LABELS_IS_REQUIRED, LABELS_IS_EXISTS } = require('../config/errType');
 const labelService = require('../services/label');
 const { isEmpty } = require('../utils/valid');
 
@@ -31,4 +31,18 @@ async function labelVerifyExists(ctx, next) {
   await next();
 }
 
-module.exports = { labelVerifyExists };
+async function createLabelVerify(ctx, next) {
+  const { name } = ctx.request.body;
+  if (!name) {
+    ctx.app.emit('error', LABELS_IS_REQUIRED, ctx);
+    return;
+  }
+  const result = await labelService.findByName(name);
+  if (result) {
+    ctx.app.emit('error', LABELS_IS_EXISTS, ctx);
+    return;
+  }
+  await next();
+}
+
+module.exports = { labelVerifyExists, createLabelVerify };

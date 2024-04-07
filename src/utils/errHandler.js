@@ -53,6 +53,10 @@ app.on('error', (err, ctx) => {
       message = '标签不能为空~';
       errCode = -1007;
       break;
+    default:
+      message = '服务器错误~';
+      errCode = -500;
+      break;
   }
 
   ctx.body = resError(message, errCode);

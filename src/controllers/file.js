@@ -1,10 +1,12 @@
 const fileService = require('../services/file');
+const { resSuccess } = require('../utils/resFormat');
 
 class FileController {
   async create(ctx, next) {
-    await fileService.create();
-    console.log(ctx.request.file);
-    ctx.body = '上传成功';
+    const { filename, mimetype, size } = ctx.request.file;
+    const { id: userId } = ctx.user;
+    await fileService.create({ filename, mimetype, size }, userId);
+    ctx.body = resSuccess(null);
   }
 }
 
