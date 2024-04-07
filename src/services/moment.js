@@ -1,6 +1,5 @@
 const { literal } = require('sequelize');
-const { Moment, User, Comment, LabelMoment } = require('../models');
-const { mapRows } = require('../utils/property');
+const { Moment, User, Comment, LabelMoment, Label } = require('../models');
 
 class MomentService {
   async create(userId, content) {
@@ -10,6 +9,7 @@ class MomentService {
 
   async findAll(query) {
     const { page, limit } = query;
+    // 查询数据
     let { count, rows } = await Moment.findAndCountAll({
       attributes: {
         include: [
@@ -19,29 +19,48 @@ class MomentService {
           literal(
             '(SELECT COUNT(*) FROM labelMoments WHERE labelMoments.momentId = moment.id) AS labelCount'
           )
-        ]
+        ],
+        exclude: ['userId', 'deletedAt']
       },
       include: [
         {
           model: User,
-          attributes: { exclude: ['password'] }
+          attributes: { exclude: ['password', 'deletedAt', 'createdAt', 'updatedAt'] }
+        },
+        {
+          model: Label,
+          through: { attributes: [] },
+          attributes: { exclude: ['updatedAt', 'createdAt'] }
         }
       ],
       offset: (page - 1) * limit,
       limit: +limit,
       raw: true
     });
-    rows = mapRows(rows, [
-      'id',
-      'content',
-      'createdAt',
-      'updatedAt',
-      'deletedAt',
-      'commentCount',
-      'labelCount',
-      'user.id',
-      'user.name'
-    ]);
+
+    // 处理数据
+    rows = rows.reduce((acc, row) => {
+      const existsMoment = acc.find((item) => item.id === row.id);
+      if (existsMoment) {
+        existsMoment.labels.push({ id: row['labels.id'], name: row['labels.name'] });
+      } else {
+        const newMoment = {
+          id: row.id,
+          content: row.content,
+          createdAt: row.createdAt,
+          updatedAt: row.updatedAt,
+          commentCount: row.commentCount,
+          labelCount: row.labelCount,
+          user: {
+            id: row['user.id'],
+            name: row['user.name']
+          },
+          labels: row['labels.id'] ? [{ id: row['labels.id'], name: row['labels.name'] }] : []
+        };
+        acc.push(newMoment);
+      }
+      return acc;
+    }, []);
 
     return { momentCount: count, list: JSON.parse(JSON.stringify(rows)) };
   }

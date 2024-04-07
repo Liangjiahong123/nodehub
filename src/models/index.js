@@ -13,6 +13,8 @@ Comment.hasMany(Comment);
 Comment.belongsTo(User, { foreignKey: 'userId' });
 Comment.belongsTo(Moment, { foreignKey: 'momentId' });
 Comment.belongsTo(Comment, { foreignKey: 'commentId' });
+Moment.belongsToMany(Label, { through: LabelMoment });
+Label.belongsToMany(Moment, { through: LabelMoment });
 
 sequelize.sync();
 
