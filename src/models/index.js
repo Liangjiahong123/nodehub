@@ -3,6 +3,7 @@ const Moment = require('./moment');
 const Comment = require('./comment');
 const Label = require('./label');
 const LabelMoment = require('./labelMoment');
+const Avatar = require('./avatar');
 const sequelize = require('../app/database');
 
 User.hasMany(Moment);
@@ -13,7 +14,9 @@ Comment.hasMany(Comment);
 Comment.belongsTo(User, { foreignKey: 'userId' });
 Comment.belongsTo(Moment, { foreignKey: 'momentId' });
 Comment.belongsTo(Comment, { foreignKey: 'commentId' });
+Moment.belongsToMany(Label, { through: LabelMoment });
+Label.belongsToMany(Moment, { through: LabelMoment });
 
 sequelize.sync();
 
-module.exports = { User, Moment, Comment, Label, LabelMoment };
+module.exports = { User, Moment, Comment, Label, LabelMoment, Avatar };

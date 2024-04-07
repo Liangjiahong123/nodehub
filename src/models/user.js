@@ -12,6 +12,9 @@ User.init(
     password: {
       type: DataTypes.STRING(50),
       allowNull: false
+    },
+    avatarUrl: {
+      type: DataTypes.STRING(255)
     }
   },
   { paranoid: true, modelName: 'user', sequelize }

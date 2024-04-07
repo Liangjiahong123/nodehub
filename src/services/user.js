@@ -13,6 +13,12 @@ class userService {
     if (result) return result.toJSON();
     return null;
   }
+
+  async update(id, user) {
+    await User.update(user, {
+      where: { id }
+    });
+  }
 }
 
 module.exports = new userService();
