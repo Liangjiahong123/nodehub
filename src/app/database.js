@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const { sqlLogger } = require('../logs');
+const { sqlLogger } = require('../../logs');
 
 // 连接数据库
 const sequelize = new Sequelize('nodehub', 'root', 'Jh123.com', {
