@@ -53,7 +53,8 @@ class MomentService {
           labelCount: row.labelCount,
           user: {
             id: row['user.id'],
-            name: row['user.name']
+            name: row['user.name'],
+            avatarUrl: row['user.avatarUrl']
           },
           labels: row['labels.id'] ? [{ id: row['labels.id'], name: row['labels.name'] }] : []
         };
